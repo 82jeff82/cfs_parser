@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <map>
 using namespace std;
 
 int main (int argc, char *argv[]) {
@@ -35,7 +36,7 @@ int main (int argc, char *argv[]) {
             }
             else {
                 if (!tempWord.empty()){
-                    wordMap[tempWord].push_back(fileIndex);
+                    wordMap[tempWord].push_back(wordStartIndex);
                     wordStartIndex = -1;
                     //Reset tempWord string and the character index to be 0
                     tempWord.clear();
@@ -46,7 +47,12 @@ int main (int argc, char *argv[]) {
             fileIndex++;
         }
         
-        
+
+        //Handle the edge case where there is a word at the end without a character after it
+        if (!tempWord.empty()){
+            wordMap[tempWord].push_back(wordStartIndex);
+        }
+
         file.close();
     }
 
@@ -56,16 +62,28 @@ int main (int argc, char *argv[]) {
     } 
 
     //Print out the entire map with each index
-    for (auto i: wordMap)
+    for (auto& i: wordMap)
     {
         cout<<i.first<<": ";
-        for (auto j: i.second){
+        for (auto& j: i.second){
             std::cout << j << " ";
         }
         std::cout << std::endl;
     }
      
-     
+    std::map<string, vector<int>> sortedWordMap(wordMap.begin(), wordMap.end());
+    
+    std::cout << "Ordered map:" << std::endl;
+
+    for (auto& i: sortedWordMap)
+    {
+        cout<<i.first<<": ";
+        for (auto& j: i.second){
+            std::cout << j << " ";
+        }
+        std::cout << std::endl;
+    }
+
 
   return 0;
 }
