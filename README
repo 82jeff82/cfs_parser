@@ -1,0 +1,5 @@
+To run this repo, run the following command:
+make all
+
+To run the executable, run the following command:
+./parser test_input1.txt
